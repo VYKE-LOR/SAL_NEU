@@ -85,3 +85,4 @@ oder die Projekt-Skripte:
 - `npm run db:push`
 
 Der reguläre `npm run dev`-Start führt die nötigen Schritte bereits automatisch aus.
+- `npm run db:push` und `npm run db:generate` lesen automatisch `apps/api/.env` und bauen bei Bedarf `DATABASE_URL` aus `DB_*` Variablen.

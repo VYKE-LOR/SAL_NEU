@@ -7,9 +7,9 @@
     "build": "tsc -p tsconfig.json",
     "start": "node dist/main.js",
     "lint": "echo 'lint placeholder'",
-    "prisma:generate": "prisma generate --schema ../../prisma/schema.prisma",
-    "prisma:migrate": "prisma migrate dev",
-    "prisma:push": "prisma db push --schema ../../prisma/schema.prisma"
+    "prisma:generate": "node ./scripts/prisma-runner.mjs generate",
+    "prisma:migrate": "node ./scripts/prisma-runner.mjs migrate dev",
+    "prisma:push": "node ./scripts/prisma-runner.mjs db push"
   },
   "dependencies": {
     "@fastify/cookie": "^10.0.1",
