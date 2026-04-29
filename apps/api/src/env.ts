@@ -28,7 +28,8 @@ const baseSchema = z.object({
   DISCORD_CLIENT_ID: z.string().min(1),
   DISCORD_CLIENT_SECRET: z.string().min(1),
   DISCORD_REDIRECT_URI: z.string().url(),
-  DISCORD_BOT_TOKEN: z.string().min(1)
+  DISCORD_BOT_TOKEN: z.string().min(1),
+  WEB_PANEL_URL: z.string().url().default("http://localhost:5173")
 });
 
 const parsed = baseSchema.safeParse(process.env);

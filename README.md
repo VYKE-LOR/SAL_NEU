@@ -75,3 +75,4 @@ Die echte Konfiguration muss in `apps/api/.env` liegen. Für den Start aus dem R
   3. `npm run dev`
 - Login-Button im Webpanel nutzt `http://localhost:4000/auth/discord`. Wenn "Verbindung abgelehnt" erscheint, läuft die API nicht oder Port 4000 ist belegt.
 - Die API startet jetzt zuerst auf Port 4000. Falls Bot oder DB fehlschlagen, bleibt der Auth-Endpunkt (`/auth/discord`) trotzdem erreichbar; Fehler werden nur geloggt.
+- OAuth Callback ist jetzt implementiert: `/auth/discord/callback` tauscht den Code gegen Token, liest den Discord-User und leitet zurück auf `WEB_PANEL_URL` mit `?login=success|failed`.
