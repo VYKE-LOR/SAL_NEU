@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model GuildConfig {
+  id              String   @id @default(cuid())
+  guildId         String   @unique
+  premiumTier     String   @default("free")
+  modules         Json
+  moderation      Json
+  automod         Json
+  tickets         Json
+  leveling        Json
+  logging         Json
+  welcome         Json
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  guildId     String
+  actorUserId String
+  action      String
+  before      Json?
+  after       Json?
+  createdAt   DateTime @default(now())
+}
+
+model ModerationCase {
+  id          String   @id @default(cuid())
+  guildId     String
+  targetUserId String
+  moderatorId String
+  type        String
+  reason      String
+  metadata    Json?
+  createdAt   DateTime @default(now())
+}
