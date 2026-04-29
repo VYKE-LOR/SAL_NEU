@@ -67,3 +67,10 @@ Die echte Konfiguration muss in `apps/api/.env` liegen. Für den Start aus dem R
 - API: `http://localhost:4000`
 - Webpanel (Vite): `http://localhost:5173`
 - Discord Login startet vom Webpanel und leitet auf `http://localhost:4000/auth/discord` weiter.
+
+## Troubleshooting
+- Fehler `@prisma/client did not initialize yet`:
+  1. `npm install`
+  2. `npm run prisma:generate -w apps/api`
+  3. `npm run dev`
+- Login-Button im Webpanel nutzt `http://localhost:4000/auth/discord`. Wenn "Verbindung abgelehnt" erscheint, läuft die API nicht oder Port 4000 ist belegt.

@@ -1,13 +1,28 @@
 import { execSync } from "node:child_process";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { prisma } from "./db.js";
 
-export async function initializeDatabase() {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const prismaSchemaPath = path.resolve(__dirname, "../../../prisma/schema.prisma");
+
+function ensurePrismaClientGenerated() {
   try {
-    execSync("npx prisma db push --schema ../../prisma/schema.prisma --skip-generate", {
-      stdio: "inherit",
-      cwd: process.cwd()
+    execSync(`npx prisma generate --schema "${prismaSchemaPath}"`, { stdio: "inherit" });
+  } catch {
+    throw new Error("Prisma Client konnte nicht generiert werden. Führe `npm install` erneut aus und prüfe Prisma-Abhängigkeiten.");
+  }
+}
+
+export async function initializeDatabase() {
+  ensurePrismaClientGenerated();
+
+  try {
+    execSync(`npx prisma db push --schema "${prismaSchemaPath}" --skip-generate`, {
+      stdio: "inherit"
     });
-  } catch (error) {
+  } catch {
     throw new Error(
       "Datenbankschema konnte nicht vorbereitet werden. Prüfe MySQL/MariaDB Zugangsdaten und ob der Datenbankserver läuft."
     );
