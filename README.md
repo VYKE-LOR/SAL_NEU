@@ -76,3 +76,12 @@ Die echte Konfiguration muss in `apps/api/.env` liegen. Für den Start aus dem R
 - Login-Button im Webpanel nutzt `http://localhost:4000/auth/discord`. Wenn "Verbindung abgelehnt" erscheint, läuft die API nicht oder Port 4000 ist belegt.
 - Die API startet jetzt zuerst auf Port 4000. Falls Bot oder DB fehlschlagen, bleibt der Auth-Endpunkt (`/auth/discord`) trotzdem erreichbar; Fehler werden nur geloggt.
 - OAuth Callback ist jetzt implementiert: `/auth/discord/callback` tauscht den Code gegen Token, liest den Discord-User und leitet zurück auf `WEB_PANEL_URL` mit `?login=success|failed`.
+
+### Prisma CLI Hinweis (Windows/Powershell)
+Wenn `prisma` direkt nicht gefunden wird, ist das normal ohne globale Installation. Nutze stattdessen:
+- `npx prisma db push --schema prisma/schema.prisma`
+oder die Projekt-Skripte:
+- `npm run db:generate`
+- `npm run db:push`
+
+Der reguläre `npm run dev`-Start führt die nötigen Schritte bereits automatisch aus.
