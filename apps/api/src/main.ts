@@ -70,9 +70,16 @@ app.put("/api/guilds/:guildId/config", async (req, reply) => {
 });
 
 const run = async () => {
-  await initializeDatabase();
-  await startBot();
   await app.listen({ port: env.PORT, host: "0.0.0.0" });
+  app.log.info(`API läuft auf http://localhost:${env.PORT}`);
+
+  initializeDatabase().catch((err) => {
+    app.log.error({ err }, "DB-Initialisierung fehlgeschlagen. API bleibt verfügbar, DB-abhängige Endpunkte können fehlschlagen.");
+  });
+
+  startBot().catch((err) => {
+    app.log.error({ err }, "Discord-Bot konnte nicht gestartet werden. API bleibt verfügbar.");
+  });
 };
 
 run().catch(async (err) => {
