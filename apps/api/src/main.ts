@@ -22,6 +22,16 @@ await app.register(session, {
 
 app.get("/health", async () => ({ ok: true }));
 
+app.get("/auth/discord", async (_req, reply) => {
+  const params = new URLSearchParams({
+    client_id: env.DISCORD_CLIENT_ID,
+    redirect_uri: env.DISCORD_REDIRECT_URI,
+    response_type: "code",
+    scope: "identify guilds"
+  });
+  return reply.redirect(`https://discord.com/oauth2/authorize?${params.toString()}`);
+});
+
 app.get("/api/guilds/:guildId/config", async (req, reply) => {
   const params = req.params as { guildId: string };
   const cfg = await prisma.guildConfig.findUnique({ where: { guildId: params.guildId } });

@@ -58,3 +58,12 @@ npm run dev
 
 ## Hinweis auf Produktionsbetrieb
 Für Produktion nur ENV ändern (z. B. Managed MySQL/MariaDB + neue Credentials). Die Datenbankschicht bleibt über Prisma entkoppelt und ist nicht an phpMyAdmin gebunden.
+
+
+## ENV-Hinweis
+Die echte Konfiguration muss in `apps/api/.env` liegen. Für den Start aus dem Root-Workspace lädt die API diese Datei automatisch vor der Zod-Validierung.
+
+## Lokale URLs
+- API: `http://localhost:4000`
+- Webpanel (Vite): `http://localhost:5173`
+- Discord Login startet vom Webpanel und leitet auf `http://localhost:4000/auth/discord` weiter.
