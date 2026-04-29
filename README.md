@@ -3,113 +3,58 @@
 sal_bot ist eine eigenständige All-in-One-Plattform für Discord-Server: Bot + API + Webpanel.
 
 ## Architektur & Tech-Entscheidungen
+- **TypeScript End-to-End** für konsistente Typen.
+- **discord.js v14** für moderne Discord-Interaktionen.
+- **Fastify API** für Performance + Security-Middleware.
+- **Prisma ORM** für migrationsarme Entwicklung und späteren DB-Wechsel.
+- **MySQL/MariaDB lokal (phpMyAdmin-verwaltet)** für einfache lokale Tests.
+- **React + Vite** für ein schnelles, modernes Webpanel.
 
-- **TypeScript End-to-End**: einheitliche Typen, geringere Fehlerquote.
-- **discord.js v14**: stabile Basis für Slash Commands, Buttons, Select Menus, Modals, Embeds und Event-Handling.
-- **Fastify API**: hoher Durchsatz, Plugin-Ökosystem für Security (Helmet, Rate-Limits, Session/Cookies).
-- **PostgreSQL + Prisma**: verlässliche Persistenz für Guild-Konfigurationen, Cases, Audit-Logs und Statistiken.
-- **React + Vite Webpanel**: schnelle Entwicklungszyklen und moderner Admin-Bereich.
-- **Modulorientierung**: jedes Funktionspaket (Moderation, Ticket, Leveling, Logging …) getrennt aktivierbar.
+## Lokale Datenbank mit phpMyAdmin (MySQL/MariaDB)
+> phpMyAdmin ist nur die Oberfläche. sal_bot verbindet sich direkt mit MySQL/MariaDB.
 
-## Feature-Abdeckung (Foundation)
+### 1) Datenbank in phpMyAdmin anlegen
+1. phpMyAdmin öffnen (z. B. `http://localhost/phpmyadmin`).
+2. Neue Datenbank erstellen: `sal_bot` (utf8mb4 / utf8mb4_unicode_ci).
+3. User mit Rechten auf diese DB nutzen (z. B. `root` lokal oder eigener User).
 
-Bereitgestellt als produktionsnahe Basis mit erweiterbarer Struktur:
-
-- Discord Bot Foundation
-  - Slash Commands (`/ping`, `/userinfo`)
-  - Event Listener (`guildMemberAdd`, Interactions)
-  - Embed-Antworten
-  - zentrale Start-/Fehlerstruktur
-- Webpanel Foundation
-  - Admin UI Startseite
-  - API-Integration vorbereitet
-- API Foundation
-  - Guild-Konfiguration lesen/schreiben
-  - Audit-Log bei Änderungen
-  - Session/Cookie + Helmet + Rate Limit
-- Persistenz
-  - `GuildConfig`, `AuditLog`, `ModerationCase`
-
-## Modul-Design (für Ausbau)
-
-Jedes Modul wird als `enabled + config` je Guild modelliert:
-
-- Moderation (warn/timeout/kick/ban/purge/cases)
-- Automod (spam/link/invite/caps/mentions/raid + escalation)
-- Tickets (panel/types/transcript/rating/stats)
-- Leveling (xp/voice/roles/leaderboard)
-- Welcome/Goodbye
-- Reaction/Self roles
-- Giveaways
-- Custom Commands + Auto-Responder
-- Embed Builder
-- Logging
-- Stats
-- Music (source-abstraction)
-- Social Alerts
-- Utility
-- Premium flags (Feature Gating)
-
-## Sicherheit
-
-- Discord OAuth2-only Auth (in der nächsten Ausbaustufe API-Routen `auth/*` ergänzen)
-- Serverseitige Autorisierung pro Aktion
-- HttpOnly Session-Cookies
-- CSP/Headers via Helmet
-- Rate-Limits
-- Audit-Log aller Panel-Änderungen
-- Keine Secrets im Code (`.env`)
-
-## Setup
-
-1. Dependencies installieren
-
-```bash
-npm install
-```
-
-2. Umgebungsvariablen setzen
-
+### 2) ENV setzen
 ```bash
 cp .env.example .env
 ```
+Dann in `.env` eintragen:
+- `DB_HOST` (z. B. `127.0.0.1`)
+- `DB_PORT` (z. B. `3306`)
+- `DB_NAME` (z. B. `sal_bot`)
+- `DB_USER`
+- `DB_PASSWORD`
 
-3. Datenbank migrieren
+Optional kann stattdessen `DATABASE_URL` gesetzt werden.
 
+### 3) Auto-Setup beim Start
+Beim API-Start wird automatisch:
+- das Prisma-Schema per `prisma db push` synchronisiert,
+- fehlende Tabellen erstellt,
+- und bei leerer DB Basisdaten (Beispiel-GuildConfig + AuditLog) eingefügt.
+
+Damit sind **keine manuellen SQL-Importe** für lokale Tests nötig.
+
+## Projektstart
 ```bash
-npm run prisma:generate -w apps/api
-npm run prisma:migrate -w apps/api
-```
-
-4. Entwicklung starten
-
-```bash
+npm install
 npm run dev
 ```
 
-- API: `http://localhost:4000`
-- Web: Standard Vite Port
+## Wichtige Endpunkte
+- `GET /health`
+- `GET /api/guilds/:guildId/config`
+- `PUT /api/guilds/:guildId/config`
 
-## Deployment-Hinweise
+## Sicherheit (Foundation)
+- Session-Cookies (`HttpOnly`, `SameSite`)
+- Helmet + Rate-Limit
+- Keine Secrets im Code
+- Audit-Logs für Konfigurationsänderungen
 
-- Reverse Proxy (Nginx/Caddy) vor API/Web
-- HTTPS erzwingen
-- `NODE_ENV=production`
-- Rotierende Session Secrets
-- Managed PostgreSQL + tägliche Backups
-- Optional Redis für Queue/Rate/Cache
-- Horizontal skalieren: Bot Worker + API getrennt deployen
-
-## Sicherheits-Checkliste
-
-- [ ] Discord OAuth2 Redirect URI exakt gesetzt
-- [ ] Session Secret >= 32 Zeichen
-- [ ] DB-Zugriff nur private network
-- [ ] keine `.env` im Repo
-- [ ] Log-Redaction für sensible Felder
-- [ ] Rollen-/Admin-Prüfung serverseitig erzwungen
-- [ ] Audit-Logs aufbewahren und monitoren
-
-## .env Beispiel
-
-Siehe `.env.example`.
+## Hinweis auf Produktionsbetrieb
+Für Produktion nur ENV ändern (z. B. Managed MySQL/MariaDB + neue Credentials). Die Datenbankschicht bleibt über Prisma entkoppelt und ist nicht an phpMyAdmin gebunden.

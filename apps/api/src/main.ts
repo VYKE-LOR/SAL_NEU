@@ -7,6 +7,7 @@ import rateLimit from "@fastify/rate-limit";
 import { env } from "./env.js";
 import { prisma } from "./db.js";
 import { startBot } from "./discord/bot.js";
+import { initializeDatabase } from "./db-init.js";
 
 const app = Fastify({ logger: true });
 
@@ -59,6 +60,7 @@ app.put("/api/guilds/:guildId/config", async (req, reply) => {
 });
 
 const run = async () => {
+  await initializeDatabase();
   await startBot();
   await app.listen({ port: env.PORT, host: "0.0.0.0" });
 };
