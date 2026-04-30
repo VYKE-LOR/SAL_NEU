@@ -1,0 +1,40 @@
+:root {
+  --bg: #070b14;
+  --bg-soft: #10192a;
+  --card: rgba(19, 31, 48, .7);
+  --text: #e8f2ff;
+  --muted: #96a9c8;
+  --accent: #23d6ff;
+  --accent-2: #f9a826;
+  --radius: 16px;
+  --shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,sans-serif;background:radial-gradient(circle at 10% 0%,#12213d,var(--bg) 55%);color:var(--text)}
+.container{width:min(1120px,92%);margin-inline:auto}
+.sal-header{position:sticky;top:0;z-index:40;background:rgba(7,11,20,.7);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+.sal-header__inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.8rem 0}
+.sal-logo{display:flex;align-items:center;gap:.6rem;color:var(--text);text-decoration:none;font-weight:700}
+.sal-logo__mark{width:14px;height:14px;border-radius:50%;background:var(--accent);box-shadow:0 0 16px var(--accent)}
+.sal-nav{display:flex;gap:1.2rem}.sal-nav a{color:var(--muted);text-decoration:none}.sal-nav a:hover{color:var(--text)}
+.sal-cart-btn,.btn{border:1px solid rgba(35,214,255,.4);padding:.68rem 1rem;border-radius:999px;text-decoration:none;color:var(--text);display:inline-flex;align-items:center;gap:.5rem;transition:.25s}
+.sal-cart-btn:hover,.btn:hover{transform:translateY(-2px);box-shadow:0 0 20px rgba(35,214,255,.22)}
+.sal-cart-count{background:var(--accent-2);padding:.2rem .5rem;border-radius:999px;color:#1f1300;font-weight:700}
+.sal-menu-toggle{display:none}
+.sal-hero{position:relative;overflow:hidden;padding:7rem 0 5rem}.sal-kicker{color:var(--accent)}
+.sal-hero h1{font-size:clamp(2rem,6vw,4rem);margin:.2rem 0}.sal-subline{color:var(--muted);max-width:60ch}
+.sal-actions{display:flex;gap:.8rem;margin:1.3rem 0}.btn-primary{background:linear-gradient(90deg,var(--accent),#6be8ff);color:#03222a}.btn-secondary{border-color:rgba(249,168,38,.45)}
+.sal-trust{display:flex;gap:1rem;padding:0;list-style:none;color:#c7d7ee;flex-wrap:wrap}
+.sal-hero-art{position:absolute;right:0;top:0;width:min(52vw,740px);opacity:.65;pointer-events:none}
+.sal-section{padding:2.3rem 0}.sal-category-grid,.sal-product-grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.sal-category-card,.sal-product-card{background:var(--card);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:1rem;text-decoration:none;color:var(--text);box-shadow:var(--shadow);transition:.25s}
+.sal-category-card:hover,.sal-product-card:hover{transform:translateY(-5px);border-color:rgba(35,214,255,.6);box-shadow:0 0 24px rgba(35,214,255,.18)}
+.sal-category-card.is-active{outline:2px solid var(--accent)}
+.sal-product-card img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:10px}
+.sal-product-footer{display:flex;align-items:center;justify-content:space-between;gap:.7rem}
+.sal-badge{display:inline-block;background:rgba(249,168,38,.17);border:1px solid rgba(249,168,38,.4);color:#ffd089;padding:.2rem .5rem;border-radius:8px;font-size:.75rem}
+.sal-package{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}.sal-package-image{width:100%;border-radius:var(--radius)}
+.sal-price{font-size:2rem;color:var(--accent)} .sal-benefits{color:#c3d5ee}
+.sal-basket-layout{display:grid;grid-template-columns:2fr 1fr;gap:1rem}.sal-basket-cta{position:sticky;top:90px;background:var(--card);padding:1rem;border-radius:var(--radius);height:fit-content}
+.sal-footer{margin-top:2rem;border-top:1px solid rgba(255,255,255,.08);padding:2rem 0;background:#060a12}.sal-footer__grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:1rem}.sal-footer a{display:block;color:var(--muted);text-decoration:none;margin:.2rem 0}
+[data-reveal]{opacity:0;transform:translateY(16px);transition:.5s}[data-reveal].is-visible{opacity:1;transform:none}
+@media (max-width:900px){.sal-nav{position:fixed;inset:65px 0 auto 0;display:grid;background:#0a1322;padding:1rem;transform:translateY(-140%);transition:.25s}.sal-nav.is-open{transform:none}.sal-menu-toggle{display:inline-flex}.sal-package,.sal-basket-layout,.sal-footer__grid{grid-template-columns:1fr}}

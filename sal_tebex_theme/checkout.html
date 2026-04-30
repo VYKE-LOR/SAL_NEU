@@ -1,0 +1,9 @@
+{% extends 'layout.html' %}
+{% block title %}Checkout – San Andreas Legacy{% endblock %}
+{% block content %}
+<section class="container sal-section" data-reveal>
+  <h1>Checkout</h1>
+  <p>Schließe deinen Einkauf sicher über Tebex ab.</p>
+  {{ checkout_form|raw }}
+</section>
+{% endblock %}
