@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+{% block title %}Warenkorb – San Andreas Legacy{% endblock %}
+{% block content %}
+<section class="container sal-section" data-reveal>
+  <h1>Warenkorb</h1>
+  <div class="sal-basket-layout">
+    <div class="sal-basket-items">
+      {{ basket.content|raw }}
+    </div>
+    <aside class="sal-basket-cta">
+      <h3>Bereit für dein Upgrade?</h3>
+      <p>Sichere dir dein Paket und starte sofort auf dem Server.</p>
+      <div class="sal-checkout-form">{{ basket.checkout_button|raw }}</div>
+    </aside>
+  </div>
+</section>
+{% endblock %}

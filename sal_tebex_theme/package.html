@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+{% block title %}{{ package.name }} – San Andreas Legacy{% endblock %}
+{% block content %}
+<section class="container sal-section sal-package" data-reveal>
+  <div>
+    {% if package.image %}<img src="{{ package.image }}" alt="{{ package.name }}" class="sal-package-image" />{% endif %}
+  </div>
+  <div>
+    <h1>{{ package.name }}</h1>
+    <p class="sal-price">{{ package.price|money }}</p>
+    <ul class="sal-benefits">
+      <li>Automatische Lieferung direkt nach Zahlung</li>
+      <li>Ideal abgestimmt auf immersive RP-Erlebnisse</li>
+      <li>Support durch Community-Team auf Discord</li>
+    </ul>
+    {# Tebex button/form bleibt unverändert eingebettet #}
+    <div class="sal-buy-box">{{ package.purchase_form|raw }}</div>
+    <article class="sal-description">{{ package.description|raw }}</article>
+  </div>
+</section>
+{% endblock %}

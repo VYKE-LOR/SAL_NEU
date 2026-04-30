@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{ store.name|default('San Andreas Legacy') }} – Premium Store{% endblock %}
+
+{% block content %}
+<section class="sal-hero" data-parallax>
+  <div class="container sal-hero__content">
+    <p class="sal-kicker">SAN ANDREAS LEGACY</p>
+    <h1>Dein Legacy beginnt hier.</h1>
+    <p class="sal-subline">Premium Pakete, exklusive Vorteile und Support für dein Leben in San Andreas.</p>
+    <div class="sal-actions">
+      <a class="btn btn-primary" href="#categories">Shop entdecken</a>
+      <a class="btn btn-secondary" href="https://discord.gg" target="_blank" rel="noopener">Discord beitreten</a>
+    </div>
+    <ul class="sal-trust" role="list">
+      <li>Sichere Zahlung</li><li>Sofortige Lieferung</li><li>Community Support</li>
+    </ul>
+  </div>
+  <img class="sal-hero-art" src="{{ 'assets/img/sal-hero-art.svg'|asset }}" alt="" aria-hidden="true" />
+</section>
+
+<section id="categories" class="container sal-section" data-reveal>
+  <h2>Kategorien</h2>
+  <div class="sal-category-grid">
+    {% for category in categories %}
+      <a class="sal-category-card {% if category.id == current_category.id|default(null) %}is-active{% endif %}" href="{{ category.url }}">
+        <img src="{{ 'assets/img/category-icons/default.svg'|asset }}" alt="" aria-hidden="true" />
+        <span>{{ category.name }}</span>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="container sal-section" data-reveal>
+  <h2>Beliebte Pakete</h2>
+  <div class="sal-product-grid">
+    {% for package in packages %}
+      <article class="sal-product-card">
+        {% if loop.index <= 3 %}<span class="sal-badge">Beliebt</span>{% endif %}
+        {% if package.image %}<img src="{{ package.image }}" alt="{{ package.name }}" />{% endif %}
+        <h3>{{ package.name }}</h3>
+        <p>{{ package.description|striptags|slice(0, 110) }}...</p>
+        <div class="sal-product-footer">
+          <strong>{{ package.price|money }}</strong>
+          <a class="btn btn-primary" href="{{ package.url }}">In den Warenkorb</a>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

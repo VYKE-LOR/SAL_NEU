@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+{% block title %}{{ category.name }} – San Andreas Legacy{% endblock %}
+{% block content %}
+<section class="container sal-section">
+  <h1>{{ category.name }}</h1>
+  <p>{{ category.description|default('Wähle dein nächstes Upgrade für dein RP-Erlebnis.') }}</p>
+  <div class="sal-product-grid">
+    {% for package in category.packages %}
+      <article class="sal-product-card" data-reveal>
+        {% if package.image %}<img src="{{ package.image }}" alt="{{ package.name }}" />{% endif %}
+        <h3>{{ package.name }}</h3>
+        <p>{{ package.description|striptags|slice(0, 130) }}...</p>
+        <div class="sal-product-footer">
+          <strong>{{ package.price|money }}</strong>
+          <a href="{{ package.url }}" class="btn btn-primary">Details</a>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

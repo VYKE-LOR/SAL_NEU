@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="{{ app.locale|default('de') }}">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}{{ store.name|default('San Andreas Legacy') }}{% endblock %}</title>
+  <meta name="description" content="{{ store.description|default('Premium Pakete für San Andreas Legacy') }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ 'assets/css/sal-theme.css' | asset }}">
+  {% if custom_css is defined %}{{ custom_css|raw }}{% endif %}
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <div class="sal-bg-grid" aria-hidden="true"></div>
+  <header class="sal-header" data-sticky>
+    <div class="container sal-header__inner">
+      <a class="sal-logo" href="{{ path('/') }}" aria-label="Zur Startseite">
+        <span class="sal-logo__mark"></span>
+        <span>San Andreas Legacy</span>
+      </a>
+      <button class="sal-menu-toggle" type="button" aria-expanded="false" aria-controls="sal-nav">Menü</button>
+      <nav id="sal-nav" class="sal-nav" aria-label="Hauptnavigation">
+        <a href="{{ path('/') }}">Start</a>
+        <a href="{{ path('/category')|default('#categories') }}">Kategorien</a>
+        <a href="{{ path('/terms')|default('#') }}">Regeln</a>
+        <a href="https://discord.gg" target="_blank" rel="noopener">Discord</a>
+      </nav>
+      <a class="sal-cart-btn" href="{{ basket.url|default(path('/basket')) }}">
+        Warenkorb
+        <span class="sal-cart-count">{{ basket.packages|length|default(0) }}</span>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="sal-footer">
+    <div class="container sal-footer__grid">
+      <div>
+        <h3>San Andreas Legacy</h3>
+        <p>Premium RP Store mit sofortiger Lieferung und sicherem Checkout.</p>
+      </div>
+      <div>
+        <h4>Community</h4>
+        <a href="https://discord.gg" target="_blank" rel="noopener">Discord beitreten</a>
+      </div>
+      <div>
+        <h4>Rechtliches</h4>
+        <a href="{{ path('/terms')|default('#') }}">AGB</a>
+        <a href="{{ path('/privacy')|default('#') }}">Datenschutz</a>
+        <a href="{{ path('/imprint')|default('#') }}">Impressum</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="{{ 'assets/js/sal-theme.js' | asset }}" defer></script>
+  {% if custom_scripts is defined %}{{ custom_scripts|raw }}{% endif %}
+  {% block scripts %}{% endblock %}
+</body>
+</html>
